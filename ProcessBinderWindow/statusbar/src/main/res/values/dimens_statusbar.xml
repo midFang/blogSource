@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="status_bar_height">24dp</dimen>
+    <dimen name="status_bar_bottom_line_height">2dp</dimen>
+    <dimen name="notification_setting_height">300dp</dimen>
+    <dimen name="margin_start_end">64dp</dimen>
+</resources>
