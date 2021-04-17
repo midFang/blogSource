@@ -1,0 +1,3 @@
+include ':myplugin'
+include ':app'
+rootProject.name = "AndroidGradlePlugin"

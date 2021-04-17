@@ -1,0 +1,178 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'com.midfang.myplugin'
+}
+
+class pluginDemo implements Plugin<Project>{
+    @Override
+    void apply(Project project) {
+        println('base pluginDemo ')
+    }
+}
+
+apply plugin: pluginDemo
+// 导入自定义插件库
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    buildToolsVersion rootProject.ext.android["buildToolsVersion"]
+
+    defaultConfig {
+        applicationId rootProject.ext.android["applicationId"]
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        debugConfig {
+            keyAlias "platform-02050101"
+            keyPassword "Android"
+            storeFile file("Android.keystore")
+            storePassword "Android"
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false //是否混淆
+            // 移除无用的resource文件
+            shrinkResources false
+            //设置属性名为BUILD_STRING值为release的属性,注意需要使用\"定义字符串
+            buildConfigField "String", "BUILD_STRING", "\"debug\""
+            //定义boolean类型数据
+            buildConfigField "boolean", "IS_DEBUG", "true"
+            //定义int类型数据
+            buildConfigField "int", "NUM", "0"
+            applicationIdSuffix ".debug"
+        }
+        release {
+            minifyEnabled false //是否混淆
+            // 移除无用的resource文件
+            shrinkResources false
+            //签名
+            // signingConfig signingConfigs.debugConfig
+            // 不显示Log
+            buildConfigField "boolean", "LOG_DISENABLE", "true"
+            //设置属性名为BUILD_STRING值为release的属性,注意需要使用\"定义字符串
+            buildConfigField "String", "BUILD_STRING", "\"release\""
+            //定义boolean类型数据
+            buildConfigField "boolean", "IS_DEBUG", "false"
+            //定义int类型数据
+            buildConfigField "int", "NUM", "1"
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        internal {
+            initWith debug
+            applicationIdSuffix ".internal"
+            //设置属性名为BUILD_STRING值为release的属性,注意需要使用\"定义字符串
+            buildConfigField "String", "BUILD_STRING", "\"internal\""
+            //定义boolean类型数据
+            buildConfigField "boolean", "IS_DEBUG", "true"
+            //定义int类型数据
+            buildConfigField "int", "NUM", "2"
+        }
+    }
+
+    flavorDimensions "market"
+    productFlavors {
+        baidu {
+            manifestPlaceholders = [themeColor: "red"]
+        }
+    }
+
+    // 输出包名字
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            outputFileName = "${appNamePrefix()}"+ "_" +
+                    variant.versionName + "_" +
+                    "${releaseTime()}" + "_" +
+                    variant.flavorName + "_" +
+                    variant.buildType.name + "_" +
+                    ".apk"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+def implementationDependencies = rootProject.ext.dependencies
+def testImplementationDependencies = rootProject.ext.testImplementation
+def androidTestImplementationDependencies = rootProject.ext.androidTestImplementation
+
+
+def appNamePrefix() {
+    return "midFang"
+}
+
+String releaseTime() {
+    Date date = new Date()
+    String dates = date.format("yyyyMMdd_hhmmss", TimeZone.getTimeZone("UTC"))
+    return dates
+}
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    implementationDependencies.each { k, v -> implementation v }
+    testImplementationDependencies.each { k, v -> implementation v }
+    androidTestImplementationDependencies.each { k, v -> implementation v }
+
+
+    /**
+     *     如下项目配置参考来源: https://github.com/JsonChao/Awesome-WanAndroid   thanks
+     *
+     *     androidTestImplementationDependencies.each { k, v -> androidTestImplementation v }*     testImplementationDependencies.each { k, v -> testImplementation v }*     debugApiDependencies.each { k, v -> debugApi v }*     releaseApiDependencies.each { k, v -> releaseApi v }*     compileOnlyDependencies.each { k, v -> compileOnly v }*
+     *     // 处理 annotationProcessor 依赖
+     *     processors.each { k, v -> annotationProcessor v }*
+     *     // 处理所有包含 exclude 的依赖
+     *     implementationExcludes.each { entry ->
+     *         implementation(entry.key) {*             entry.value.each { childEntry ->
+     *                 exclude(group: childEntry)
+     *}
+     *         }
+     *     }
+     *     debugImplementationExcludes.each { entry ->
+     *         delementation(entry.key) {
+     *             entry.value.each { childEntry ->
+     *                 exclude(group: childEntry.key, motue)
+     *             }
+     *         }
+     *     }
+     *     releaseImplementationExcludes.each { entry ->*         releaseImplementation(entry.key) {
+     *             entry.value.each { childEntry ->
+     *                 exclude(groupkddvalue)
+     *             }
+     *         }
+     *     }
+     *     testImplementationExclude.each { entry ->
+     *         testImplementation(entry.key) {
+     *             entry.value.each { childEntry ->
+     *                 e nm Ealue)
+     *             }
+     *         }
+     *     }
+     *     androidTestImplementationExcludes.each { ->
+     *         androidTestImplementation(entry.key) {
+     *             entry.value.each { childEntry ->
+     *                 e nm Ealue)
+     *             }
+     *         }
+     *     }
+     *
+     *     // httpDns 优化
+     *   ('com.aliyun.ams:alicloud-androtpdns:1.3.2@aar') {
+     *         transitive true
+     *     }
+     */
+
+}

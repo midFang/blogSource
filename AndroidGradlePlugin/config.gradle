@@ -1,0 +1,141 @@
+ext {
+
+    android = [
+            applicationId    : "com.midfang.androidgradleplugin",
+            compileSdkVersion: 30,
+            buildToolsVersion: "30.0.3",
+            minSdkVersion    : 21,
+            targetSdkVersion : 30,
+            versionCode      : 1,
+            versionName      : "1.0.0"
+    ]
+
+    /* 统一管理常用库版本信息 */
+    version = [
+            appcompatVersion    : "1.1.0",
+            smartrefreshVersion : "1.1.0-alpha-21",
+            okhttpVersion       : "3.9.0",
+            retrofitVersion     : "2.3.0",
+            glideVersion        : "4.0.0",
+            daggerVersion       : "2.15",
+            butterknifeVersion  : "8.8.1",
+            fragmentationVersion: "1.2.4",
+            leakcanaryVersion   : "1.6.3"
+    ]
+
+    dependencies = [
+            // base
+            "core-ktx"         : "androidx.core:core-ktx:1.2.0",
+            "kotlin"           : "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
+            "appcompat"        : "androidx.appcompat:appcompat:${version["appcompatVersion"]}",
+            "material"         : "com.google.android.material:material:${version["appcompatVersion"]}",
+            "constraint-layout": "androidx.constraintlayout:constraintlayout:1.1.3"
+
+            // more and more
+
+    ]
+
+    testImplementation = [
+            "junit": "junit:junit:4.+"
+    ]
+
+    androidTestImplementation = [
+            "androidx-test": "androidx.test.ext:junit:1.1.1",
+            "espresso-core": "androidx.test.espresso:espresso-core:3.2.0"
+    ]
+
+
+    /**
+     *  annotationProcessor = [
+     *             "glide_compiler"                    : "com.github.bumptech.glide:compiler:${version["glideVersion"]}",
+     *             "dagger-compiler"                   : "com.google.dagger:dagger-compiler:${version["daggerVersion"]}",
+     *             "dagger-android-processor"          : "com.google.dagger:dagger-android-processor:${version["daggerVersion"]}",
+     *             "butterknife-compiler"              : "com.jakewharton:butterknife-compiler:${version["butterknifeVersion"]}",
+     *             "x2c-apt"                           : "com.zhangyue.we:x2c-apt:1.1.2"
+     *     ]
+     *
+     *     apiFileDependencies = [
+     *             "launchstarter"                                   : "libs/launchstarter-release-1.0.0.aar",
+     *             "yearclass"                                       : "libs/yearclass-release-1.0.0.aar"
+     *
+     *     ]
+     *
+     *     debugImplementationDependencies = [
+     *             "MethodTraceMan"                                  : "com.github.zhengcx:MethodTraceMan:1.0.7"
+     *     ]
+     *
+     *     releaseImplementationDependencies = [
+     *             "MethodTraceMan"                                  : "com.github.zhengcx:MethodTraceMan:1.0.5-noop"
+     *     ]
+     *
+     *     androidTestImplementationDependencies = [
+     *             "espresso-contrib"                  : "com.android.support.test.espresso:espresso-contrib:3.0.2",
+     *             "espresso-intents"                  : "com.android.support.test.espresso:espresso-intents:3.0.2",
+     *             "espresso-accessibility"            : "com.android.support.test.espresso:espresso-accessibility:3.0.2",
+     *             "espresso-web"                      : "com.android.support.test.espresso:espresso-web:3.0.2",
+     *             "idling-concurrent"                 : "com.android.support.test.espresso.idling:idling-concurrent:3.0.2",
+     *             "runner"                            : "com.android.support.test:runner:1.0.2"
+     *     ]
+     *
+     *
+     *     testImplementationDependencies = [
+     *             "asm"                               : "org.ow2.asm:asm:7.1",
+     *             "asm-commons"                       : "org.ow2.asm:asm-commons:7.1",
+     *             // unit test , 为了整合mockito和PowerMockito，mockito暂时最高只支持2.8.9
+     *             "junit"                             : "junit:junit:4.12",
+     *             "mockito"                           : "org.mockito:mockito-core:2.8.9",
+     *             "powermock-module-junit4"           : "org.powermock:powermock-module-junit4:1.7.4",
+     *             "powermock-module-junit4-rule"      : "org.powermock:powermock-module-junit4-rule:1.7.4",
+     *             "powermock-api-mockito2"            : "org.powermock:powermock-api-mockito2:1.7.4",
+     *             "powermock-classloading-xstream"    : "org.powermock:powermock-classloading-xstream:1.7.4",
+     *             "robolectric"                       : "org.robolectric:robolectric:3.8",
+     *             "shadows-support-v4"                : "org.robolectric:shadows-support-v4:3.4-rc2",
+     *             "shadows-multidex"                  : "org.robolectric:shadows-multidex:3.+"
+     *     ]
+     *
+     *     debugApiDependencies = [
+     *             "blockcanary-android"                     : "com.github.markzhai:blockcanary-android:1.5.0"
+     *     ]
+     *
+     *     releaseApiDependencies = [
+     *             "blockcanary-no-op"                       : "com.github.markzhai:blockcanary-no-op:1.5.0"
+     *     ]
+     *
+     *     compileOnlyDependencies = [
+     *             "lancet-base"                       : "me.ele:lancet-base:1.0.5"
+     *     ]
+     *
+     *     implementationExcludes = [
+     *             "com.android.support.test.espresso:espresso-idling-resource:3.0.2" : [
+     *                     'com.android.support' : 'support-annotations'
+     *             ]
+     *     ]
+     *
+     *     debugImplementationExcludes = [
+     *             "com.squareup.leakcanary:leakcanary-android:${version["leakcanaryVersion"]}" : [
+     *                     'com.android.support' : 'support-annotations'
+     *             ]
+     *     ]
+     *
+     *     releaseImplementationExcludes = [
+     *             "com.squareup.leakcanary:leakcanary-android-no-op:${version["leakcanaryVersion"]}" : [
+     *                     'com.android.support' : 'support-annotations'
+     *             ]
+     *     ]
+     *
+     *     testImplementationExcludes = [
+     *             "com.squareup.leakcanary:leakcanary-android-no-op:${version["leakcanaryVersion"]}" : [
+     *                     'com.android.support' : 'support-annotations'
+     *             ]
+     *     ]
+     *
+     *     androidTestImplementationExcludes = [
+     *             "com.android.support.test.espresso:espresso-core:3.0.2" : [
+     *                     'com.android.support' : 'support-annotations'
+     *             ]
+     *     ]
+     */
+
+
+
+}

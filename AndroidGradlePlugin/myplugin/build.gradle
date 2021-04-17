@@ -1,0 +1,27 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+dependencies{
+    // gradle sdk
+    implementation gradleApi()
+    // groovy sdk
+    implementation localGroovy()
+    implementation 'com.android.tools.build:gradle:4.1.1'
+}
+
+repositories{
+    mavenCentral()
+}
+
+// 打包到本地maven库
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.groupId = 'com.midfang.myplugin'
+            pom.artifactId = 'midfang'
+            pom.version = 1.0
+            // maven本地仓库的目录
+            repository(url: uri('../myplugin'))
+        }
+    }
+}
