@@ -1,0 +1,3 @@
+include ':statusbar'
+include ':app'
+rootProject.name = "ProcessBinderWindow"
