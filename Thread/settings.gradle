@@ -1,0 +1,3 @@
+include ':threadpool'
+include ':app'
+rootProject.name = "Thread"
