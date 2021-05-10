@@ -1,5 +1,10 @@
 ext {
 
+    url = [
+            "debug": "http://54353.65465.64.464//",
+            "release": "http://777.65465.64.464//"
+    ]
+
     android = [
             applicationId    : "com.midfang.androidgradleplugin",
             compileSdkVersion: 30,

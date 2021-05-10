@@ -9,5 +9,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         BuildTypeUtil.drawBadge(this)
+
+
+        // url 可以这样简化
+        println(BuildConfig.SERVER_URL)
     }
 }

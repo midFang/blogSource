@@ -14,12 +14,15 @@ class pluginDemo implements Plugin<Project>{
 apply plugin: pluginDemo
 // 导入自定义插件库
 
+def app_android = rootProject.ext.android
+
 android {
-    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
-    buildToolsVersion rootProject.ext.android["buildToolsVersion"]
+    // 可以以这种写法, 更加的简便,优化
+    compileSdkVersion app_android.compileSdkVersion
+    buildToolsVersion app_android.buildToolsVersion
 
     defaultConfig {
-        applicationId rootProject.ext.android["applicationId"]
+        applicationId app_android.applicationId
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]
@@ -48,6 +51,8 @@ android {
             buildConfigField "boolean", "IS_DEBUG", "true"
             //定义int类型数据
             buildConfigField "int", "NUM", "0"
+            // url
+            buildConfigField "String", "SERVER_URL", "\"${url.debug}\""
             applicationIdSuffix ".debug"
         }
         release {
@@ -62,6 +67,7 @@ android {
             buildConfigField "String", "BUILD_STRING", "\"release\""
             //定义boolean类型数据
             buildConfigField "boolean", "IS_DEBUG", "false"
+            buildConfigField "String", "SERVER_URL", "\"${url.release}\""
             //定义int类型数据
             buildConfigField "int", "NUM", "1"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
